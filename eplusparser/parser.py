@@ -28,18 +28,18 @@ def parse(fn, frequency='hourly'):
     # Construct SQL query
     data_sql = """
         SELECT KeyValue, VariableName, VariableValue, SimulationDays, \
-                Time.TimeIndex
+            Time.TimeIndex
         FROM ReportVariableData
         INNER JOIN ReportVariableDataDictionary
-        ON ReportVariableDataDictionary.ReportVariableDataDictionaryIndex \
-                = ReportVariableData.ReportVariableDataDictionaryIndex
+            ON ReportVariableDataDictionary.ReportVariableDataDictionaryIndex \
+                 = ReportVariableData.ReportVariableDataDictionaryIndex
         INNER JOIN Time
-        ON Time.TimeIndex = ReportVariableData.TimeIndex
-        WHERE ReportingFrequency == '?'
+            ON Time.TimeIndex = ReportVariableData.TimeIndex
+        WHERE ReportingFrequency == ?
     """
     raw_df = pd.read_sql(data_sql, connection, params=(frequency,))
 
     connection.close()
 
     return raw_df.pivot_table(values='VariableValue', index=['TimeIndex'],
-                              columns=['KeyValue', 'VariableName'])
+                              columns=['VariableName', 'KeyValue'])
