@@ -35,7 +35,7 @@ def parse(fn, frequency='hourly'):
                 = ReportVariableData.ReportVariableDataDictionaryIndex
         INNER JOIN Time
         ON Time.TimeIndex = ReportVariableData.TimeIndex
-        WHERE ReportingFrequency == '?'
+        WHERE ReportingFrequency == ?
     """
     raw_df = pd.read_sql(data_sql, connection, params=(frequency,))
 
