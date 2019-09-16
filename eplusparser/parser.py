@@ -42,4 +42,37 @@ def parse(fn, frequency='hourly'):
     connection.close()
 
     return raw_df.pivot_table(values='VariableValue', index=['TimeIndex'],
-                              columns=['KeyValue', 'VariableName'])
+                              columns=['VariableName', 'KeyValue'])
+
+def get_zones(fn):
+    '''
+    Read EnergyPlus SQLite database into a DataFrame.
+
+    Parameters
+    ----------
+    fn : path-like object
+        EnergyPlus SQL output to read
+    frequency : str, default 'hourly'
+        Fetch data with this reporting frequency
+
+    Returns
+    -------
+    DataFrame
+    '''
+
+    if not os.path.exists(fn):
+        raise OSError('File not found: %s' % fn)
+
+    connection = sqlite3.connect(fn)
+
+    # Construct SQL query
+    data_sql = """
+        SELECT *
+        FROM Zones
+    """
+    raw_df = pd.read_sql(data_sql, connection)
+    raw_df.set_index('ZoneIndex', inplace=True)
+
+    connection.close()
+
+    return raw_df
