@@ -21,6 +21,8 @@ def parse(fn, **kwargs):
     '''
     if type(fn) not in (list, tuple):
         fn = glob.glob(fn)
+    if len(fn) < 1:
+        raise ValueError('No files specified - did you possibly glob a non-existing file?')
 
     dataframes = []
     for f in fn:
