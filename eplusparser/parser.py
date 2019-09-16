@@ -3,7 +3,34 @@ import pandas as pd
 import sqlite3
 
 
-def parse(fn, frequency='hourly'):
+def parse(fn, **kwargs):
+    '''
+    Read EnergyPlus SQLite database into a DataFrame.
+
+    Parameters
+    ----------
+    fn : str, list, or tuple
+        glob or list of filenames
+    frequency : str, default 'hourly'
+        Fetch data with this reporting frequency
+
+    Returns
+    -------
+    DataFrame
+    '''
+    if type(fn) not in (list, tuple):
+        fn = glob.glob(fn)
+
+    dataframes = []
+    for f in fn:
+        # Read in dataframe and assign "file" column for ID
+        df = _parse(f, **kwargs)
+        df['file'] = f
+        dataframes.append(df)
+    return pd.concat(dataframes, ignore_index=True)
+
+
+def _parse(fn, frequency='hourly'):
     '''
     Read EnergyPlus SQLite database into a DataFrame.
 
