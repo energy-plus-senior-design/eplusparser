@@ -5,7 +5,7 @@ A python package to read EnergyPlus `eplusout.sql` files into
 
 ## Install
 
-`python setup.py install`
+`pip install .`
 
 ## Example
 
