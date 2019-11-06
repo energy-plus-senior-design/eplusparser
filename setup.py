@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
         name='eplusparser',
-        version='0.1.0',
+        version='0.1.1',
         description='Parser for EnergyPlus SQL output',
         packages=find_packages(),
         python_requires='>=3.5',
