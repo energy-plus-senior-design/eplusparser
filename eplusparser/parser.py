@@ -51,7 +51,7 @@ def _filter_column(col, search, dest, name='drop', verbose=False):
         if q in col[0].lower() or q in col[1].lower():
             if verbose:
                 print(name, col)
-            if dest:
+            if dest is not None:
                 dest.add(col)
             return True
     return False
