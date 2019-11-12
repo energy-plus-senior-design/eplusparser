@@ -112,7 +112,7 @@ def get_uxy(df, targets=['Electricity:Facility', 'Gas:Facility'],
         if verbose:
             print('undecided:', c)
 
-    return df[list(u_cols)], df[list(x_cols)], df[list(y_cols)]
+    return df[list(sorted(u_cols))], df[list(sorted(x_cols))], df[list(sorted(y_cols))]
 
 
 def get_zones(fn):
